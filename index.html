@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="demo.css">
+    <link type="text/css" rel="stylesheet" href="scatter-matrix.css">
+  </head>
+  <body>
+
+    <!-- <a href="https://github.com/benjiec/scatter-matrix"
+    ><img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a> -->
+
+    <h2 style="font-size:24px;">
+      Scatter-Matrix.js - Multi-dimensional data pairwise scatter plot.
+    </h2>
+	<input type="file" id="uploader">Adapted from <a href="http://benjiec.github.io/scatter-matrix/demo/demo.html#">benjiec</a>. <a href="https://github.com/benjiec/scatter-matrix">Fork him on Github.</a></input>
+
+    <pre>
+The data file to be uploaded must be a csv file. If wanting to assign colors 
+to different groups, add a column to you data file with the group to which 
+each data point pertains. This plot has brushing capabilities activated by 
+clicking and dragging rectangles on any subplot.
+</pre>
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="scatter-matrix.js"></script>
+    <script type="text/javascript">
+
+      function plotScatter(data) {
+      	var sm = new ScatterMatrix(data);
+      	sm.render();
+	  };
+
+	  var uploader = document.getElementById("uploader");  
+	  var reader = new FileReader();
+
+	  reader.onload = function(e) {
+	    var contents = e.target.result;
+	    var data = d3.csv.parse(contents);
+	    plotScatter(data);
+	    // remove button and other things, since re-initializing doesn't work for now
+	    uploader.parentNode.removeChild(uploader);
+	  };
+
+	  uploader.addEventListener("change", handleFiles, false);  
+
+	  function handleFiles() {
+	    var file = this.files[0];
+	    reader.readAsText(file);
+	  };
+
+
+    </script>
+  </body>
+</html>
